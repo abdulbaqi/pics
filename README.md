@@ -20,3 +20,12 @@ onInputChange(event) {
     console.log(event.target.value);
   }
 ```
+See the difference between controleed vs uncontrolled event handling
+
+````
+<input
+              type="text"
+              value={this.state.term}
+              onChange={(e)=>{this.setState({term:e.target.value})}}
+            />
+````
