@@ -136,7 +136,7 @@ onFormSubmit(term) {
 The second way is to use `async` and `await` syntax as follows:
 
 ````
-async onFormSubmit(term) {
+onFormSubmit = async (term) => {
     const response =  await axios.get('https://api.unsplash.com/search/photos',{
         params: {query: term},
         headers: {
@@ -144,6 +144,19 @@ async onFormSubmit(term) {
         }
     });
 
-    console.log(response.data.results);
+    this.setState({images:response.data.results});
 
+````
+refactor axios by creating a seperate file inside a new folder called `api` which will contain:
+
+````
+import axios from "axios";
+
+export default axios.create({
+  baseURL: "https://api.unsplash.com",
+  headers: {
+    Authorization:
+      "Client-ID cfadcc63674541ef1c2229f851cabf95b1b5102f693983f1ea5b467bc7791670"
+  }
+});
 ````
