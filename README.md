@@ -20,12 +20,55 @@ onInputChange(event) {
     console.log(event.target.value);
   }
 ```
+
 See the difference between controleed vs uncontrolled event handling
 
-````
+```
 <input
               type="text"
               value={this.state.term}
               onChange={(e)=>{this.setState({term:e.target.value})}}
             />
+```
+
+Default behaviour of html forms is that whenever you press `enter` it refreshes the page.
+
+Note how to bind a function that calls state.
+
+```
+constructor(props){
+        super(props);
+        this.state = { term: "" };
+        this.onFormSubmit = this.onFormSubmit.bind(this);
+    }
+
+
+  onFormSubmit(event){
+      event.preventDefault();
+      console.log(this.state.term);
+  }
+```
+another way to solve this is to convert the `onFormSubmit` to arrow function
+
+````
+ state = {term:''};
+
+  onFormSubmit = (event)=> {
+      event.preventDefault();
+      console.log(this.state.term);
+  }
+
+````
+
+A third way without binding is to invoke arrow function withint the form
+
+````
+onFormSubmit(event) {
+    event.preventDefault();
+    console.log(this.state.term);
+}
+...
+
+<form onSubmit={(e)=>this.onFormSubmit(e)} className="ui form">
+
 ````
