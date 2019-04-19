@@ -48,9 +48,10 @@ constructor(props){
       console.log(this.state.term);
   }
 ```
+
 another way to solve this is to convert the `onFormSubmit` to arrow function
 
-````
+```
  state = {term:''};
 
   onFormSubmit = (event)=> {
@@ -58,17 +59,60 @@ another way to solve this is to convert the `onFormSubmit` to arrow function
       console.log(this.state.term);
   }
 
-````
+```
 
 A third way without binding is to invoke arrow function withint the form
 
-````
+```
 onFormSubmit(event) {
     event.preventDefault();
     console.log(this.state.term);
 }
 ...
 
+
 <form onSubmit={(e)=>this.onFormSubmit(e)} className="ui form">
 
+```
+
+`props` can pass information always from father down to child and not the other way
+
+To pass info from child back to father, we pass a function from father (`App.js`) to the child as follows
+
+````
+//App.js
+onFormSubmit(term){
+        console.log(`from app ${term}`)
+    }
+
+  render() {
+    return (
+      <div className="ui container" style={{marginTop:'10px'}}>
+        <SearchBar onSubmit={this.onFormSubmit} />
+      </div>
+    );
+  }
+
+````
+
+````
+//child
+onFormSubmit=(event)=> {
+    event.preventDefault();
+    this.props.onSubmit(this.state.term);
+  }
+
+  render() {
+    return (
+      <div className="ui segment">
+        <form onSubmit={this.onFormSubmit} className="ui form">
+          <div className="field">
+            <label>Image Search</label>
+            <input
+              type="text"
+              value={this.state.term}
+              onChange={e => {
+                this.setState({ term: e.target.value });
+              }}
+            />
 ````
