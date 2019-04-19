@@ -116,3 +116,34 @@ onFormSubmit=(event)=> {
               }}
             />
 ````
+
+For API we will use `axios`
+
+After a promise we use `then()` like the following snippet. 
+
+````
+onFormSubmit(term) {
+    axios.get('https://api.unsplash.com/search/photos',{
+        params: {query: term},
+        headers: {
+            Authorization: 'Client-ID cfadcc63674541ef1c2229f851cabf95b1b5102f693983f1ea5b467bc7791670'
+        }
+    }).then((response)=>{
+        console.log(response.data.results)
+    })
+````
+
+The second way is to use `async` and `await` syntax as follows:
+
+````
+async onFormSubmit(term) {
+    const response =  await axios.get('https://api.unsplash.com/search/photos',{
+        params: {query: term},
+        headers: {
+            Authorization: 'Client-ID cfadcc63674541ef1c2229f851cabf95b1b5102f693983f1ea5b467bc7791670'
+        }
+    });
+
+    console.log(response.data.results);
+
+````
