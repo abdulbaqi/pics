@@ -79,7 +79,7 @@ onFormSubmit(event) {
 
 To pass info from child back to father, we pass a function from father (`App.js`) to the child as follows
 
-````
+```
 //App.js
 onFormSubmit(term){
         console.log(`from app ${term}`)
@@ -93,9 +93,9 @@ onFormSubmit(term){
     );
   }
 
-````
+```
 
-````
+```
 //child
 onFormSubmit=(event)=> {
     event.preventDefault();
@@ -115,13 +115,13 @@ onFormSubmit=(event)=> {
                 this.setState({ term: e.target.value });
               }}
             />
-````
+```
 
 For API we will use `axios`
 
-After a promise we use `then()` like the following snippet. 
+After a promise we use `then()` like the following snippet.
 
-````
+```
 onFormSubmit(term) {
     axios.get('https://api.unsplash.com/search/photos',{
         params: {query: term},
@@ -131,11 +131,11 @@ onFormSubmit(term) {
     }).then((response)=>{
         console.log(response.data.results)
     })
-````
+```
 
 The second way is to use `async` and `await` syntax as follows:
 
-````
+```
 onFormSubmit = async (term) => {
     const response =  await axios.get('https://api.unsplash.com/search/photos',{
         params: {query: term},
@@ -146,10 +146,11 @@ onFormSubmit = async (term) => {
 
     this.setState({images:response.data.results});
 
-````
+```
+
 refactor axios by creating a seperate file inside a new folder called `api` which will contain:
 
-````
+```
 import axios from "axios";
 
 export default axios.create({
@@ -159,6 +160,30 @@ export default axios.create({
       "Client-ID cfadcc63674541ef1c2229f851cabf95b1b5102f693983f1ea5b467bc7791670"
   }
 });
-````
+```
 
 Next, we turn to ImageList.js component.
+
+we can create a functional component as below
+
+```
+const ImageList = props => {
+  console.log(props.images);
+  const images = props.images.map((image)=> {
+      return <img key={image.id}  src={image.urls.regular} alt={image.description}/>
+  })
+  return <div>{images}</div>;
+};
+```
+
+also we can destructure and `image` in the map funciton to reduce some coding as follows:
+
+```
+const ImageList = props => {
+  console.log(props.images);
+  const images = props.images.map(({ id, urls, description }) => {
+    return <img key={id} src={urls.regular} alt={description} />;
+  });
+  return <div>{images}</div>;
+};
+```
