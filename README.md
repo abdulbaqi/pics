@@ -160,3 +160,5 @@ export default axios.create({
   }
 });
 ````
+
+Next, we turn to ImageList.js component.
