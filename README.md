@@ -187,3 +187,35 @@ const ImageList = props => {
   return <div>{images}</div>;
 };
 ```
+
+## Version 2 - CSS and image layout
+
+Grid CSS system, <div style="display:grid"> and with following CSS rule
+
+```CSS
+.image-list {
+    display: grid;
+    grid-template-columns: :repeat(auto-fill, minmax(250px, 1fr));
+}
+```
+
+Eventually we will create a new component to render one image car `ImageCard`
+
+To access DOM elements in React we use `ref`. This is done by the following code:
+
+```javascript
+class ImageCard extends React.Component {
+  constructor(props) {
+    super(props);
+    this.imageRef = React.createRef();
+  }
+  render() {
+    const { description, urls } = this.props.image;
+    return (
+      <div>
+        <img ref={this.imageRef} alt={description} src={urls.regular} />
+      </div>
+    );
+  }
+}
+```
