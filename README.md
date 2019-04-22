@@ -219,3 +219,48 @@ class ImageCard extends React.Component {
   }
 }
 ```
+
+The trick is to play with the CSS properties on grid display. Here is my CSS file again
+
+```CSS
+.image-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  grid-gap: 0 10px;
+  grid-auto-rows: 10px;
+}
+
+.image-list img {
+  width: 250px;
+}
+```
+
+and the card component:
+
+```javascript
+class ImageCard extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { spans: 0 };
+    this.imageRef = React.createRef();
+  }
+
+  componentDidMount() {
+    this.imageRef.current.addEventListener("load", this.setSpans);
+  }
+
+  setSpans = () => {
+    const height = this.imageRef.current.clientHeight;
+    const spans = Math.ceil(height / 10 + 1);
+    this.setState({ spans });
+  };
+  render() {
+    const { description, urls } = this.props.image;
+    return (
+      <div style={{ gridRowEnd: `span ${this.state.spans}` }}>
+        <img ref={this.imageRef} alt={description} src={urls.regular} />
+      </div>
+    );
+  }
+}
+```
